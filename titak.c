@@ -1,12 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 int rando() {
-    int r; time_t t;
-    srand((unsigned) time(&t));
+    int r; 
+    srand(time(NULL));
     r = rand()%3;
     return r;
 }
+
+int printGame(int ourArr[3][3]) {
+    int i, j;
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            printf("%4d", ourArr[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int gameOver(int ourArr[3][3]) {
+    
+}
+
 int main() {
 
     int x, y; // User input coordinates 
@@ -24,19 +40,27 @@ int main() {
     // Game will be over when this while loop ends
     while (temp < 4) {
         // Scan for coordinates and set it to be 1 (user input)
-        scanf("%d %d", &x, &y);  cSet[x][y] = 1; 
-
+        printf("You choose : ");
+        scanf("%d %d", &x, &y);  cSet[x][y] = 1;
+        printGame(cSet); // User turn
+        
         /* Random CPU Input (will be modified later, 
         we will build a function for it)*/
-        cSet[rando()][rando()] = 1;
-        
-        // Print our coordinates
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
-                printf("%4d", cSet[i][j]);
+
+        i = 0; 
+        while (i == 0) {
+            int cX = rando(); int cY = rando();
+            //printf("%d %d", cX, cY);
+            if (cSet[cX][cY] != 1 && cSet[cX][cY] != 9) { 
+                printf("Computer chose: %d %d\n", cX, cY);
+                cSet[cX][cY] = 9;
+                i++; // Alt for break
             }
-            printf("\n");
+            else continue;
         }
+
+        printGame(cSet); // CPU turn 
+
         temp++;
     }
     return 0;
